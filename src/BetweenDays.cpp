@@ -82,32 +82,90 @@ int between_days(struct node *date1head, struct node *date2head){
 		if (date1[0] == date2[0] || abs(date1[0] - date2[0]) == 1)
 			return 1;
 	}
+	int dd1, dd2, mm1, mm2, yy1, yy2;
 	int days = 0,i;
 	if (date2[2] > date1[2])
 	{
-		
+		dd1 = date1[0];
+		mm1 = date1[1];
+		yy1 = date1[2];
+		dd2 = date2[0];
+		mm2 = date2[1];
+		yy2 = date2[2];
 	}
-	for (i = date1[2] + 1; i < date2[2]; i++)
+	else if(date2[2] < date1[2])
+	{
+		dd1 = date2[0];
+		mm1 = date2[1];
+		yy1 = date2[2];
+		dd2 = date1[0];
+		mm2 = date1[1];
+		yy2 = date1[2];
+	}
+	else
+	{
+		if (date2[1] > date1[1])
+		{
+			dd1 = date1[0];
+			mm1 = date1[1];
+			yy1 = date1[2];
+			dd2 = date2[0];
+			mm2 = date2[1];
+			yy2 = date2[2];
+		}
+		else if (date2[1] < date1[1])
+		{
+			dd1 = date2[0];
+			mm1 = date2[1];
+			yy1 = date2[2];
+			dd2 = date1[0];
+			mm2 = date1[1];
+			yy2 = date1[2];
+		}
+		else
+		{
+			if (date2[0] > date1[0])
+			{
+				dd1 = date1[0];
+				mm1 = date1[1];
+				yy1 = date1[2];
+				dd2 = date2[0];
+				mm2 = date2[1];
+				yy2 = date2[2];
+			}
+			else if (date2[0] < date1[0])
+			{
+				dd1 = date2[0];
+				mm1 = date2[1];
+				yy1 = date2[2];
+				dd2 = date1[0];
+				mm2 = date1[1];
+				yy2 = date1[2];
+			}
+		}
+	}
+	for (i = yy1 + 1; i < yy2; i++)
 	{
 		if (leapYear(i))
 			days += 366;
 		else
 			days += 365;
 	}
-	for (i = date1[1]; i<12; i++)
+	for (i = mm1; i<12; i++)
 	{
-		days += getNumberDays(i, date1[2]);
+		days += getNumberDays(i, yy1);
 	}
-	for (i = 1; i<date2[1]; i++)
+	for (i = 1; i<mm2; i++)
 	{
-		days += getNumberDays(i, date2[2]);
+		days += getNumberDays(i, yy2);
 	}
-	for (i = date1[0] + 1; i <= getNumberDays(date1[1], date1[2]); i++)
-	{
-		days += 1;
-	}
-	for (i = 1; i < date2[0]; i++)
+	for (i = dd1 + 1; i <= getNumberDays(mm1, yy1); i++)
 	{
 		days += 1;
 	}
+	for (i = 1; i < dd2; i++)
+	{
+		days += 1;
+	}
+	return days;
 }
