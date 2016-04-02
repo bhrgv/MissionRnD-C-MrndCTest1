@@ -80,8 +80,13 @@ void make_it_circular(struct node *head){
 
 int main(){
 
-	int input[10] = { 1, 2, 3, 5, 10, 15, 30, 60 };
-	int ans[6] = { 0, 2, 3, 5, 5, 7 };
-	int len = 8;
-	int *res = find_sequences(input, len);
+	int dates[2][8] = { { 0, 2, 0, 4, 2, 0, 1, 6 }, { 0, 4, 0, 4, 2, 0, 1, 6 } };
+
+	struct node *date1head = NULL, *date2head = NULL;
+	for (int i = 7; i >= 0; i--){
+		addNode(&date1head, dates[0][i]);
+		addNode(&date2head, dates[1][i]);
+	}
+
+	int days = between_days(date1head, date2head);
 }

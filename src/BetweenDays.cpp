@@ -33,8 +33,8 @@ int* getDate(struct node* dateHead)
 	int date[8],i=0;
 	while (dateHead)
 	{
-		date[i] = dateHead->data;
-		dateHead->next;
+		date[i++] = dateHead->data;
+		dateHead=dateHead->next;
 	}
 	int dd = date[0] * 10 + date[1];
 	int mm = date[2] * 10 + date[3];
