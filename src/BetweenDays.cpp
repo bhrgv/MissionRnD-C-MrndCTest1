@@ -27,8 +27,87 @@ struct node{
 	int data;
 	struct node *next;
 };
-
-
+int* getDate(struct node* dateHead)
+{
+	int flg = 0;
+	int date[8],i=0;
+	while (dateHead)
+	{
+		date[i] = dateHead->data;
+		dateHead->next;
+	}
+	int dd = date[0] * 10 + date[1];
+	int mm = date[2] * 10 + date[3];
+	int yy = date[4] * 1000 + 100*date[5]+10*date[6]+date[7];
+	int* dateRes = (int*)malloc(3 * sizeof(int));
+	dateRes[0] = dd;
+	dateRes[1] = mm;
+	dateRes[2] = yy;
+	return dateRes;
+}
+int leapYear(int yy)
+{
+	if ((yy % 4 == 0 && yy % 100 != 0) || (yy % 400 == 0))
+		return 1;
+	return 0;
+}
+int getNumberDays(int mm,int yy)
+{
+	switch (mm)
+	{
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+		return 31;
+	case 2:
+		if (leapYear(yy))
+			return 29;
+		else
+			return 28;
+	default:
+		return 30;
+	}
+}
 int between_days(struct node *date1head, struct node *date2head){
-	return -1;
+	if (date1head == NULL || date2head == NULL)
+		return -1;
+	int* date1 = getDate(date1head);
+	int* date2 = getDate(date2head);
+	if (date1[1] == date2[1] && date1[2] == date2[2])
+	{
+		if (date1[0] == date2[0] || abs(date1[0] - date2[0]) == 1)
+			return 1;
+	}
+	int days = 0,i;
+	if (date2[2] > date1[2])
+	{
+		
+	}
+	for (i = date1[2] + 1; i < date2[2]; i++)
+	{
+		if (leapYear(i))
+			days += 366;
+		else
+			days += 365;
+	}
+	for (i = date1[1]; i<12; i++)
+	{
+		days += getNumberDays(i, date1[2]);
+	}
+	for (i = 1; i<date2[1]; i++)
+	{
+		days += getNumberDays(i, date2[2]);
+	}
+	for (i = date1[0] + 1; i <= getNumberDays(date1[1], date1[2]); i++)
+	{
+		days += 1;
+	}
+	for (i = 1; i < date2[0]; i++)
+	{
+		days += 1;
+	}
 }

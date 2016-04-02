@@ -30,8 +30,75 @@ Difficulty : Medium
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
+int* findArthimetic(int* arr, int str, int len)
+{
+	int i;
+	int* result = (int*)malloc(2 * sizeof(int));
+	for (i = str; i < len-2; i++)
+	{
+		if (arr[i + 1] - arr[i] == arr[i + 2] - arr[i + 1])
+			break;
+	}
+	int start = i;
+	if (i == len)
+	{
+		result[0] = 0;
+		result[1] = 0;
+		return result;
+	}
+	int d = arr[i + 1] - arr[i];
+	for (i = i + 1; i < len; i++)
+	{
+		if (arr[i] - arr[i - 1] != d)
+			break;
+	}
+	if (i - start < 3)
+		return findArthimetic(arr, i, len);
+	result[0] = start;
+	result[1] = i - 1;
+	return result;
+}
+int* findGeometric(int* arr, int str,int len)
+{
+	int i;
+	int* result = (int*)malloc(2 * sizeof(int));
+	for (i = str; i < len - 2; i++)
+	{
+		float d1 = (arr[i + 1] / (1.0*arr[i]));
+		float d2 = (arr[i + 2] / (1.0*arr[i + 1]));
+		if (d1 == d2)
+			break;
+	}
+	int start = i;
+	if (i == len)
+	{
+		result[0] = 0;
+		result[1] = 0;
+		return result;
+	}
+	int d = arr[i + 1] / arr[i];
+	for (i = i + 1; i < len; i++)
+	{
+		if (arr[i] / arr[i - 1] != d)
+			break;
+	}
+	result[0] = start;
+	result[1] = i - 1;
+	return result;
+}
 int * find_sequences(int *arr, int len){
 	//Return final array which has 6indexes [AP1_S,AP1_E,AP2_S,AP2_E,GP1_S,GP2_E]
-	return NULL;
+	if (arr==NULL)
+		return NULL;
+	int* res1 = findArthimetic(arr, 0, len);
+	int* res2 = findArthimetic(arr, res1[1], len);
+	int* res3 = findGeometric(arr,0, len);
+	int* res = (int*)malloc(6 * sizeof(int));
+	res[0] = res1[0];
+	res[1] = res1[1];
+	res[2] = res2[0];
+	res[3] = res2[1];
+	res[4] = res3[0];
+	res[5] = res3[1];
+	return res;
 }
